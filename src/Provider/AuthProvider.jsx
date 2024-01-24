@@ -4,8 +4,6 @@ import PropTypes from "prop-types";
 import { jwtDecode } from "jwt-decode";
 import { clearCookie } from "../Api/auth";
 
-
-
 // import { clearCookie } from '../Api/Auth';
 
 export const AuthContext = createContext(null);
@@ -21,31 +19,32 @@ const AuthProvider = ({ children }) => {
   //   return signOut(auth)
   // }
   const currentUser = (accessToken) => {
-   try {
-    const decoded = jwtDecode(accessToken);   
-      setUser(decoded)
+    try {
+      const decoded = jwtDecode(accessToken);
+      setUser(decoded);
       // Save the token to localStorage
-      localStorage.setItem('token', accessToken);
-      setLoading(false)
-   } catch (error) {
-    console.error('Token decoding error:', error.message);
-   }
-  }
-  
-  const logOut = async() => {
+      localStorage.setItem("token", accessToken);
+      setLoading(false);
+    } catch (error) {
+      console.error("Token decoding error:", error.message);
+    }
+  };
+
+  const logOut = async () => {
     setLoading(true)
     // Clear user information when logging out
     setUser(null);
-    await clearCookie()
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
+    await clearCookie();
+    return
   };
 
   // onAuthStateChange
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
+    const storedToken = localStorage.getItem("token");
     if (storedToken) {
       currentUser(storedToken);
-      setLoading(false)
+      setLoading(false);
     }
   }, []);
 

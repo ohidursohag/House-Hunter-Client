@@ -26,18 +26,13 @@ const Signin = () => {
     };
     try {
       const loginResponse = await userLogin(userLoginData);
-      console.log(loginResponse.token);
       if (loginResponse.success) {
-        toast.success("Successfully Logged In", { id: toastId });
-        // Store token in local storage
-        // localStorage.setItem('token',loginResponse.token);
-        
+        toast.success("Successfully Logged In", { id: toastId });     
         currentUser(loginResponse.token);
         navigate("/", { replace: true });
       } else {
         toast.error("Something Went wrong", { id: toastId });
       }
-      console.log(userLoginData);
     } catch (error) {
       console.log(error);
       toast.error(error.message, { id: toastId });
